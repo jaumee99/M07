@@ -29,8 +29,10 @@ $n = 4;
 echo "N = $n <br>";
 
 $matriu = creaMatriu($n);
+$matriu2 = transposaMatriu($n);
 
 echo "Matriu".mostraMatriu($matriu);
+echo "Matriu inversa".mostraMatriu($matriu2);
 
 function creaMatriu($num){
     $matriu;
@@ -71,6 +73,33 @@ function mostraMatriu($matriu)
     }
     $string .= "</table>";
     return $string;
+}
+
+function  transposaMatriu($num){
+$matriu2;
+$row = 0;
+$col = 0;
+for ($i = 1; $i <= $num; $i++){
+    for ($j = 1; $j <= $num; $j++){
+        if ($col == $row) {
+            $matriu2[$col][$row] = "*";
+            $row++;
+        } elseif($col < $row) {
+            $matriu2[$col][$row] = rand(10,20);
+            $row++;
+        } elseif($col > $row) {
+            $matriu2[$col][$row] = $row+$col;
+            $row++;
+        }
+
+    }
+    $col++;
+    $row = 0;
+    
+}
+
+return $matriu2;
+
 }
 
 ?>
