@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 //7 lletres random cada 24H
 function randomLletres(){
@@ -9,7 +10,7 @@ function randomLletres(){
     
     $rand = '';
     foreach (array_rand($seed, 7) as $k) $rand .= $seed[$k];
- 
+
     return $rand;
 }
 
@@ -18,16 +19,38 @@ function pintarLletres($rand){
     $_SESSION['lletres'] = array($rand[1], $rand[2], $rand[3], $rand[4], $rand[5], $rand[6]);
 }
 
-function funcionsMin(){
-    $comptador = 0;
-    while ($comptador < 3) {
-        $Lletres = randomLletres();
-        for ($i = 0; $i < sizeof(get_defined_functions()["internal"]); $i++) {
-            $comptador++;
-        }
-}
+function funcionsMin($num, $allFunctions ){
+    $numFunctions = 0;
+    $allFunctions = get_defined_functions();
+    $allFunctions = $allFunctions['internal'];
+
+    $rand = strtolower(implode($_SESSION['lletres']));
+    $rand2 = strtolower($_SESSION['lletraMig']);
+    $regex = "/^[". $rand ."]*[" . $rand2 . "]+[". $rand ."]*$/";
+
+    $answers = array();
+    if(preg_match($regex ,$allFunctions)) {
+        $answers[] = $allFunctions;
+        $numFunctions++;
+    }
 }
 
+function Solutions() {
+    $funcions = get_defined_functions();
+    $funcions = $funcions['internal'];
+    $rand = strtolower(implode($_SESSION['lletres']));
+    $rand2 = strtolower($_SESSION['lletraMig']);
+    $regex = "/^[". $rand ."]*[" . $rand2 . "]+[". $rand ."]*$/";
+
+    foreach($funcions as $function) {
+        if(preg_match($regex ,$function)) {
+            $sol[] = $function;
+        }
+    }
+    return $sol;
+}
+
+$_SESSION['sol'] = Solutions();
 
 ?>
 
@@ -46,13 +69,13 @@ function funcionsMin(){
     <h1>
         <a href=""><img src="logo.png" height="54" class="logo" alt="PHPlògic"></a>
     </h1>
-    <!--<div class="container-notifications">
-        <p class="hide" id="message" style="">MISSATGE D'ERROR</p>
-    </div>-->
+    <div class="container-notifications">
+        <p class="hide" id="message" style=""><?php if (isset($_SESSION["error"])) echo $_SESSION["error"]?></p>
+    </div>
     <form method="GET" class="main" action="processa.php">
     <div class="cursor-container">
         <p id="input-word"><span id="test-word"></span><span id="cursor">|</span></p>
-        <input type="hidden" name="paraula" id="Text">
+        <input type="hidden" value="" name="paraula" id="paraula">
     </div>
     <div class="container-hexgrid">
         <ul id="hex-grid">
