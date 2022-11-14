@@ -1,6 +1,22 @@
 <?php
-const FILE_USERS = 'users.json';
-const FILE_CONNX = 'connections.json';
+const SELECT_USERS = "select * from users";
+const SELECT_CONNECTION = "select * from connections";
+
+//Conectar-se a la base de dades
+function Connect()
+{
+    try {
+        $hostname = "localhost";
+        $dbname = "dwes_jaumecasamitjana_autpdo";
+        $username = "dwes_jaume";
+        $pw = "dwes_jaume";
+        $pdo = new PDO("mysql:host=$hostname;dbname=$dbname","$username","$pw");
+        return $pdo;
+    } catch (PDOException $e) {
+        echo "Failed to get DB handle: " . $e->getMessage() . "\n";
+        exit;
+    }
+}
 
 /**
  * Llegeix les dades del fitxer. Si el document no existeix torna un array buit.
@@ -8,13 +24,13 @@ const FILE_CONNX = 'connections.json';
  * @param string $file
  * @return array
  */
-function llegeix(string $file) : array
+function llegeix(string $select) : array
 {
-    $var = [];
-    if ( file_exists($file) ) {
-        $var = json_decode(file_get_contents($file), true);
-    }
-    return $var;
+    $pdo = Connect();
+    $query = $pdo->prepare($select);
+    $query->execute();
+
+    return $query->fetch();
 }
 
 /**
@@ -23,9 +39,22 @@ function llegeix(string $file) : array
  * @param array $dades
  * @param string $file
  */
-function escriu(array $dades, string $file): void
+function escriuUser(string $email, string $password, string $name): void
 {
-    file_put_contents($file,json_encode($dades, JSON_PRETTY_PRINT));
+    $pdo = Connect();    
+
+    $sql = "INSERT INTO users (`email`, `password`, `name`) VALUES(?, MD5(?), ?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(array($email, $password, $name));
+}
+
+function escriuConection(string $ip, string $email, string $time, string $status): void
+{
+    $pdo = Connect();    
+
+    $sql = "INSERT INTO connections (`ip`, `email`, `time`, `status`) VALUES(?, ?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(array($ip, $email, $time, $status));
 }
 
 /**
@@ -36,10 +65,10 @@ function escriu(array $dades, string $file): void
  */
 function print_conns(string $email): string{
     $output = "";
-    $data = llegeix(FILE_CONNX);
+    $data = llegeix(SELECT_CONNECTION);
 
     foreach ($data as $vals){
-        if($vals["user"] == $email && str_contains($vals["status"], "success"))
+        if($vals["email"] == $email && str_contains($vals["status"], "success"))
             $output .= "Connexió des de " . $vals["ip"] . " amb data " . $vals["time"]. "<br>\n";
     }
 

@@ -3,7 +3,7 @@ require_once 'utils.php';
 session_start();
 
 // Redirecció per sessió no activa
-if(!isset($_SESSION["user"]) || time()-$_SESSION["user"]["login_time_stamp"] >60)
+if(!isset($_SESSION["user"]) || time()-$_SESSION["user"]["time"] >60)
 {
     header("Location: index.php?error=timeout", true, 303);
 }

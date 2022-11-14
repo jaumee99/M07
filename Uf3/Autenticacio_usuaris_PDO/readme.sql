@@ -3,7 +3,7 @@
 mysql -u root
 create database dwes_jaumecasamitjana_autpdo;
 create user dwes_jaume@localhost identified by "dwes_jaume";
-grant all privileges on dwes_jaumecasamitjana_autpdo. * to dwes_jaume@localhost;
+grant all privileges on dwes_jaumecasamitjana_autpdo.* to dwes_jaume@localhost;
 exit;
 mysql -u dwes_jaume -p
 use dwes_jaumecasamitjana_autpdo;

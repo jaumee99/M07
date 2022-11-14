@@ -3,7 +3,7 @@
 session_start();
 
 // Redirecció per sessió activa
-if (isset($_SESSION["user"]) && time() - $_SESSION["user"]["login_time_stamp"] < 60) {
+if (isset($_SESSION["user"]) && time() - $_SESSION["user"]["time"] < 60) {
     header("Location: hola.php", true, 302);
 }
 
