@@ -13,7 +13,7 @@
 
     <p class="warning"> Ja has votat al gos MUSCLO. Es modificarà la teva resposta</p>
     <div class="poll-area">
-        <form>
+        <form >
         <input type="checkbox" name="poll" id="opt-1">
         <input type="checkbox" name="poll" id="opt-2">
         <input type="checkbox" name="poll" id="opt-3">
@@ -125,7 +125,7 @@
         </form>
     </div>
 
-    <p> Mostra els <a href="resultats.html">resultats</a> de les fases anteriors.</p>
+    <p> Mostra els <a href="resultats.php">resultats</a> de les fases anteriors.</p>
 </div>
 
 </body>
