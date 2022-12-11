@@ -26,9 +26,9 @@
         <div class="admin-row">
             <h1> Nou usuari: </h1>
             <form>
-                <input type="text" placeholder="Nom">
-                <input type="password" placeholder="Contrassenya">
-                <input type="button" value="Crea usuari">
+            <a href="./Login/index.php">Login</a>
+        </br>
+            <a href="./Registre/index.php">Registre</a>
             </form>
         </div>
         <div class="admin-row">
@@ -95,18 +95,19 @@
             <h1> Concursants: </h1>
             <form>
                 <input type="text" placeholder="Nom" value="Musclo">
-                <input type="text" placeholder="Imatge" value="img/g1.png">
+                <input type="text" placeholder="Imatge" value="g1.png">
                 <input type="text" placeholder="Amo" value="Joan Pere Arnau">
                 <input type="text" placeholder="Raça" value="Husky Siberià">
                 <input type="button" value="Modifica">
             </form>
 
-            <form>
-                <input type="text" placeholder="Nom">
-                <input type="text" placeholder="Imatge">
-                <input type="text" placeholder="Amo">
-                <input type="text" placeholder="Raça">
-                <input type="button" value="Afegeix">
+            <form action="process.php" method="POST">
+                <input type="text" placeholder="IdGos" name="idGos" id="idGos" required>
+                <input type="text" placeholder="Nom" name="nom" id="nom" required>
+                <input type="text" placeholder="Imatge" name="img" id="img" required>
+                <input type="text" placeholder="Amo" name="amo" id="amo" required>
+                <input type="text" placeholder="Raça" name="raza" id="raza" required>
+                <input type="button" value="Afegeix" name="sumbit" id="sumbit">
             </form>
         </div>
 
