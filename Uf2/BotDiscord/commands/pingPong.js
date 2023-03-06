@@ -1,8 +1,7 @@
 function pingPong(message) {
-    if (message.content === 'ping') {
-      message.reply('pong');
-    }
+  if (message.content === 'ping') {
+    message.reply('pong');
   }
-  
-  module.exports = pingPong;
-  
+}
+
+module.exports = pingPong;

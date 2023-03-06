@@ -9,6 +9,9 @@ const client = new Client({
 		GatewayIntentBits.Guilds,
 		GatewayIntentBits.GuildMessages,
 		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMessageTyping,
+		GatewayIntentBits.GuildMembers,
+		GatewayIntentBits.GuildModeration,
 	],
 });
 
@@ -18,5 +21,6 @@ client.on('ready', () => {
 
 client.on('messageCreate', pingPong);
 
+client.on('messageCreate', guardarMensaje);
 
 client.login(process.env.TOKEN);
