@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function guardarMensajeTXT(message) {
+function guardarMissatgeTXT(message) {
 
     // Ignorar misatges del bot
     if (message.author.bot) return;
@@ -33,7 +33,7 @@ function guardarMensajeTXT(message) {
         if (err) throw err;
     });
 
-    
+
 }
 
-module.exports = guardarMensajeTXT;
+module.exports = guardarMissatgeTXT;
