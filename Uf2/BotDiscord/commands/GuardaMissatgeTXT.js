@@ -13,7 +13,6 @@ function guardarMissatgeTXT(message) {
     let mes = new Date().getMonth() + 1;
     let any = new Date().getFullYear();
 
-
     console.log(`\r"${message.author.username}" ha enviat "${message}" a les "${date}" en el xat "${message.channel.name}"`);
 
     let logMessage = (`\r"${message.author.username}" ha enviat "${message}" a les "${date}" en el xat "${message.channel.name}"`);
@@ -32,7 +31,6 @@ function guardarMissatgeTXT(message) {
     fs.appendFile(`logs/${dia}_${mes}_${any}.txt`, logMessage, (err) => {
         if (err) throw err;
     });
-
 
 }
 
