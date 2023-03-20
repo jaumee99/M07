@@ -1,25 +1,29 @@
+const { google } = require('googleapis');
 const fs = require('fs');
 
-function guardarMissatgeDrive(message) {
+const credentials = require('./path/to/your/credentials.json');
 
-    // Ignorar misatges del bot
-    if (message.author.bot) return;
+const auth = new google.auth.GoogleAuth({
+  credentials,
+  scopes: ['https://www.googleapis.com/auth/drive.file'],
+});
 
-    // Data i hora actual
-    let date = new Date().toString();
+const drive = google.drive({ version: 'v3', auth });
 
-    // Data pel fitxer
-    let dia = new Date().getDate();
-    let mes = new Date().getMonth() + 1;
-    let any = new Date().getFullYear();
+const folderMetadata = {
+  name: 'My Folder',
+  mimeType: 'application/vnd.google-apps.folder',
+};
 
-
-    console.log(`\r"${message.author.username}" ha enviat "${message}" a les "${date}" en el xat "${message.channel.name}"`);
-
-    let logMessage = (`\r"${message.author.username}" ha enviat "${message}" a les "${date}" en el xat "${message.channel.name}"`);
-
-
-
-}
+drive.files.create({
+  resource: folderMetadata,
+  fields: 'id',
+}, (err, file) => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log(`Folder has been created with ID: ${file.data.id}`);
+  }
+});
 
 module.exports = guardarMissatgeDrive;
