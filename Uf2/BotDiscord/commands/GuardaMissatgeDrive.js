@@ -1,29 +1,45 @@
-const { google } = require('googleapis');
 const fs = require('fs');
+const path = require('path');
+const process = require('process');
+const { google } = require('googleapis');
+const { GoogleDocsAuth } = require('google-auth-library');
+const { authorize } = require('../Auth');
 
-const credentials = require('./path/to/your/credentials.json');
+const SCOPES = [
+  'https://www.googleapis.com/auth/documents.readonly',
+  'https://www.googleapis.com/auth/documents',
+  'https://www.googleapis.com/auth/drive',
+  'https://www.googleapis.com/auth/drive.file'
+];
 
-const auth = new google.auth.GoogleAuth({
-  credentials,
-  scopes: ['https://www.googleapis.com/auth/drive.file'],
-});
 
-const drive = google.drive({ version: 'v3', auth });
+async function guardarMissatgeDrive(message) {
+  let doc = {};
+  const auth = await authorize();
+  const docs = google.docs({ version: 'v1' });
+  let date = new Date().toString();
+  let logMessage = (`\n\n"${message.author.username}" ha enviat "${message}" a les "${date}" en el xat "${message.channel.name}"`);
+  doc = JSON.parse(fs.readFileSync('../BotDiscord/document.json'))
+  console.log(doc)
 
-const folderMetadata = {
-  name: 'My Folder',
-  mimeType: 'application/vnd.google-apps.folder',
-};
+  docs.documents.batchUpdate({
+    auth,
+    documentId: doc.data.documentId,
+    requestBody: {
+      requests: [
+        {
+          insertText: {
+            location: {
+              index: 1,
+            },
+            text: logMessage,
+          },
+        },
+      ],
+    },
+  });
+}
 
-drive.files.create({
-  resource: folderMetadata,
-  fields: 'id',
-}, (err, file) => {
-  if (err) {
-    console.error(err);
-  } else {
-    console.log(`Folder has been created with ID: ${file.data.id}`);
-  }
-});
+
 
 module.exports = guardarMissatgeDrive;

@@ -22,7 +22,7 @@ function guardarMissatgeTXT(message) {
         fs.mkdirSync('logs');
     }
 
-    //cada vez que se envia un mensaje se crea un archivo con la fecha del dia
+    //cada cop que se envia un mensaje se crea un archivo amb la data del dia
     if (!fs.existsSync(`logs/${dia}_${mes}_${any}.txt`)) {
         fs.writeFileSync(`logs/${dia}_${mes}_${any}.txt`, `Logs del dia ${dia} del mes ${mes} i any ${any}:`);
     }
