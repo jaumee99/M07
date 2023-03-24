@@ -24,7 +24,7 @@ async function guardarMissatgeDrive(message) {
 
   docs.documents.batchUpdate({
     auth,
-    documentId: doc.data.documentId,
+    documentId: doc.data.id,
     requestBody: {
       requests: [
         {

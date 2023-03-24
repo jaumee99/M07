@@ -1,15 +1,14 @@
 const fs = require('fs').promises;
 const path = require('path');
 const process = require('process');
+require('dotenv/config');
 const { authenticate } = require('@google-cloud/local-auth');
 const { google } = require('googleapis');
 
 // If modifying these scopes, delete token.json.
 const SCOPES = [
-  'https://www.googleapis.com/auth/documents.readonly',
   'https://www.googleapis.com/auth/documents',
-  'https://www.googleapis.com/auth/drive',
-  'https://www.googleapis.com/auth/drive.file'
+  'https://www.googleapis.com/auth/drive'
 ];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
@@ -74,16 +73,33 @@ let dia = new Date().getDate();
 let mes = new Date().getMonth() + 1;
 let any = new Date().getFullYear();
 
+// async function CreateDocument() {
+//   const client = await authorize();
+//   const docs = google.docs({ version: 'v1', auth: client });
+//   const request = {
+//     title: 'Discord ' + dia + '-' + mes + '-' + any
+//     };
+//   const res = await docs.documents.create(request);
+//   fs.writeFile('document.json', JSON.stringify(res));
+// }
+
 async function CreateDocument() {
   const client = await authorize();
-  const docs = google.docs({ version: 'v1', auth: client });
+  const drive = google.drive({ version: 'v3', auth: client });
   const request = {
-    title: 'Discord ' + dia + '-' + mes + '-' + any,
+    name: 'Discord ' + dia + '-' + mes + '-' + any,
+    parents: [process.env.CARPETA],
+    mimeType: "application/vnd.google-apps.document"
   };
-  const res = await docs.documents.create(request);
-  fs.writeFile('document.json', JSON.stringify(res));
-}
 
+  const res = await drive.files.create({
+    requestBody: request,
+    fields: "id",
+  });
+
+  fs.writeFile('document.json', JSON.stringify(res));
+
+}
 
 authorize()
   .then(CreateDocument)
