@@ -1,8 +1,8 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 require('dotenv/config');
 
-const pingPong = require('./commands/pingPong');
-const guardarMissatgeTXT = require('./commands/GuardaMissatgeTXT');
+//const pingPong = require('./commands/pingPong');
+//const guardarMissatgeTXT = require('./commands/GuardaMissatgeTXT');
 const { authorize } = require('./Auth');
 const guardarMissatgeDrive = require('./commands/GuardaMissatgeDrive');
 
@@ -21,9 +21,9 @@ client.on('ready', () => {
 	console.log(`Ready!`);
 })
 
-client.on('messageCreate', pingPong);
+//client.on('messageCreate', pingPong);
 
-client.on('messageCreate', guardarMissatgeTXT);
+//client.on('messageCreate', guardarMissatgeTXT);
 
 client.on('connection', authorize);
 
